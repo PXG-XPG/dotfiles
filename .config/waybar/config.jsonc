@@ -6,7 +6,6 @@
   "spacing": 0,
   "modules-left": [
     // "custom/lock",
-    // "custom/reboot",
     // "custom/nvidia",
     "memory",
     "cpu",
@@ -20,6 +19,7 @@
     "pulseaudio",
     "backlight",
     "custom/temperature",
+    "custom/reboot",
     "custom/power",
   ],
   "custom/nvidia": {
