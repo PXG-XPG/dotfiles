@@ -1,0 +1,7 @@
+.config/user-dirs.dirs
+.config/user-dirs.locale
+.config/zsh/plugins
+.config/nushell/history.txt
+.config/waybar/bak
+.config/dconf
+.config/pulse

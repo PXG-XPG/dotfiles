@@ -1,0 +1,7 @@
+alias ff='fastfetch'
+alias ll='ls -lahF --color=auto'
+alias ls='ls -F --color=auto'
+alias zshrc='nvim ~/.zshrc'
+alias grep='grep --color=auto'
+alias eza='eza --long --all --header --inode'
+alias zshenv='nvim ~/.config/zsh/functions/env.zsh'

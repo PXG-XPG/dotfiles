@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=kitty
+Comment=Fast, feature-rich, GPU based terminal
+GenericName=Terminal emulator
+Icon=/home/rum/Apps/Kitty/share/icons/hicolor/256x256/apps/kitty.png
+Exec=prime-run /home/rum/Apps/Kitty/bin/kitty
+StartupNotify=true
+Type=Application
+Terminal=false
+Categories=System;TerminalEmulator;
