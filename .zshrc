@@ -3,8 +3,9 @@ source ~/.config/zsh/functions/y.zsh
 source ~/.config/zsh/functions/alias.zsh
 
 source ~/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.config/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 source ~/.config/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+bindkey -e
 
 # Set the path of history file
 HISTFILE=~/.zsh_history
