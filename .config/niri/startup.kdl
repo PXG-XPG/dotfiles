@@ -5,7 +5,10 @@
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
-spawn-at-startup "awww-daemon"
+spawn-sh-at-startup "awww-daemon -n _overview"
+spawn-sh-at-startup "awww-daemon -n _workspace"
 spawn-at-startup "mako"
 spawn-at-startup "waybar"
 spawn-at-startup "~/.config/niri/scripts/swayidle.sh"
+spawn-sh-at-startup "sleep 1 && awww img -n _workspace ~/Pictures/wallpaper/9m8yjx.png"
+spawn-sh-at-startup "sleep 1 && awww img -n _overview ~/Pictures/wallpaper/0jxd5p.png"
