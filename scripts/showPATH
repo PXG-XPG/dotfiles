@@ -1,0 +1,7 @@
+#!/bin/bash
+
+### Show PATH as a list
+IFS=:
+for folder in $PATH; do
+  echo "$folder"
+done
