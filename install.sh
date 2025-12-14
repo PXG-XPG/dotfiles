@@ -25,3 +25,9 @@ git clone https://aur.archlinux.org/yay-bin.git
 cd yay-bin
 makepkg -si
 cd && rm -rf yay-bin
+
+echo "Install awww for you......"
+yay -S awww-git
+
+echo "Install zen-browser for you......"
+yay -S zen-browser-bin
