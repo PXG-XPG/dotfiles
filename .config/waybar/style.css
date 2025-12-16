@@ -28,7 +28,7 @@
 }
 
 #tray menu{
-    background-color: #000000;
+  background-color: rgba(15,27,53,0.9);
 }
 
 #clock{
@@ -120,7 +120,7 @@
 /* 鼠标悬停变亮一点 */
 #bluetooth:hover,
 #network:hover,
-/* #tray:hover, */
+/*#tray:hover,*/
 #backlight:hover,
 #battery:hover,
 #pulseaudio:hover,
