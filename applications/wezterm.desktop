@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=WezTerm
-Comment=Wez's Terminal Emulator
-Keywords=shell;prompt;command;commandline;cmd;
-Icon=/home/rum/Apps/WezTerm/icon.png
-Exec=prime-run /home/rum/Apps/WezTerm/wezterm
-Type=Application
-Terminal=false
-Categories=System;TerminalEmulator;Utility;
