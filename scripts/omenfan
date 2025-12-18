@@ -9,25 +9,11 @@ ec_write_support() {
   modprobe ec_sys write_support=$1
 }
 
-set_fans_speed() {
-  printf $(printf '\\x%x' $speed) | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x19)) count=1 conv=notrunc
-}
-
-is_root() {
-  if [ $1 != "root" ]; then
-    echo "Please run this script as root!"
-    exit 1
-  fi
-}
-
-show_fan_speed() {
-  ec_probe read 0x19
-}
-
-switch_mode() {
+change_mode() {
   case "$1" in
   "bios")
     printf '\x00' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x15)) count=1 conv=notrunc
+    printf '\xff' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x19)) count=1 conv=notrunc
     echo "Switch to BIOS controlled mode."
     ;;
   "user")
@@ -35,30 +21,47 @@ switch_mode() {
     echo "Switch to USER controlled mode."
     ;;
   *)
-    echo "Error with unsupported mode!"
+    echo "Error: No such mode!"
+    exit 1
     ;;
   esac
 }
 
+change_speed() {
+  printf $(printf '\\x%x' $1) | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x19)) count=1 conv=notrunc
+  ec_probe read 0x19
+}
+
 ############################# Body ###########################
 
-mode=$1
-speed=$2
+# Check if you are root
+if [ $(whoami) != "root" ]; then
+  echo "ERROR: This script must be run as root"
+  exit 1
+fi
 
-is_root $(whoami)
+# Check arguments
+if [[ $# -ne 2 ]]; then
+  echo "Usage: omenfan mode  <mode>"
+  echo "       omenfan speed <speed>"
+  exit 1
+fi
 
 ec_write_support 1
 
-case $mode in
-"bios")
-  switch_mode "bios"
+# Get subcommand and argument
+subcommand=$1
+argument=$2
+
+# Do job
+case "$subcommand" in
+"mode")
+  change_mode $argument
   ;;
-"user")
-  switch_mode "user"
-  set_fans_speed $speed
+"speed")
+  change_speed $argument
   ;;
-"show")
-  show_fan_speed
+*)
+  echo "No such subcommand!"
   ;;
-*) ;;
 esac
