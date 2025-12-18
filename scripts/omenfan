@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# Require nbfc-linux(yay)
+
+########################## Functions #######################
+
+# Load the ec_sys module with write support
+ec_write_support() {
+  modprobe ec_sys write_support=$1
+}
+
+set_fans_speed() {
+  printf $(printf '\\x%x' $speed) | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x19)) count=1 conv=notrunc
+}
+
+is_root() {
+  if [ $1 != "root" ]; then
+    echo "Please run this script as root!"
+    exit 1
+  fi
+}
+
+show_fan_speed() {
+  ec_probe read 0x19
+}
+
+switch_mode() {
+  case "$1" in
+  "bios")
+    printf '\x00' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x15)) count=1 conv=notrunc
+    echo "Switch to BIOS controlled mode."
+    ;;
+  "user")
+    printf '\x01' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x15)) count=1 conv=notrunc
+    echo "Switch to USER controlled mode."
+    ;;
+  *)
+    echo "Error with unsupported mode!"
+    ;;
+  esac
+}
+
+############################# Body ###########################
+
+mode=$1
+speed=$2
+
+is_root $(whoami)
+
+ec_write_support 1
+
+case $mode in
+"bios")
+  switch_mode "bios"
+  ;;
+"user")
+  switch_mode "user"
+  set_fans_speed $speed
+  ;;
+"show")
+  show_fan_speed
+  ;;
+*) ;;
+esac
