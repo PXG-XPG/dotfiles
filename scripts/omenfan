@@ -2,9 +2,9 @@
 
 # Require nbfc-linux(yay)
 
-########################## Functions #######################
+########################## Functions ################################3
 
-# Load the ec_sys module with write support
+# Load the ec_sys module and decide if it supports write
 ec_write_support() {
   modprobe ec_sys write_support=$1
 }
@@ -12,22 +12,30 @@ ec_write_support() {
 change_mode() {
   case "$1" in
   "bios")
+    ec_write_support 1
     printf '\x00' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x15)) count=1 conv=notrunc
+    # ec_probe write 0x15 0x??
     printf '\xff' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x19)) count=1 conv=notrunc
+    # ec_probe write 0x19 0x??
+    ec_write_support 0
     echo "Switch to BIOS controlled mode."
     ;;
   "user")
+    ec_write_support 1
     printf '\x01' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x15)) count=1 conv=notrunc
+    # ec_probe write 0x15 0x??
+    ec_write_support 0
     echo "Switch to USER controlled mode."
     ;;
   *)
-    echo "Error: No such mode!"
+    echo "Error: Invaild mode!"
     exit 1
     ;;
   esac
 }
 
 change_speed() {
+  # Check if fan mode is user
   printf $(printf '\\x%x' $1) | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x19)) count=1 conv=notrunc
   ec_probe read 0x19
 }
@@ -47,13 +55,11 @@ if [[ $# -ne 2 ]]; then
   exit 1
 fi
 
-ec_write_support 1
-
 # Get subcommand and argument
 subcommand=$1
 argument=$2
 
-# Do job
+# Main
 case "$subcommand" in
 "mode")
   change_mode $argument
@@ -62,6 +68,7 @@ case "$subcommand" in
   change_speed $argument
   ;;
 *)
-  echo "No such subcommand!"
+  echo "Error: Invaild subcommand!"
+  exit 1
   ;;
 esac
