@@ -4,27 +4,19 @@
 
 ########################## Functions ################################3
 
-# Load the ec_sys module and decide if it supports write
-ec_write_support() {
-  modprobe ec_sys write_support=$1
-}
-
+# Change fans mode betweet bios and user
 change_mode() {
   case "$1" in
   "bios")
-    ec_write_support 1
-    printf '\x00' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x15)) count=1 conv=notrunc
-    # ec_probe write 0x15 0x??
-    printf '\xff' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x19)) count=1 conv=notrunc
-    # ec_probe write 0x19 0x??
-    ec_write_support 0
+    # printf '\x00' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x15)) count=1 conv=notrunc
+    ec_probe write 0x15 "0x00"
+    # printf '\xff' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x19)) count=1 conv=notrunc
+    ec_probe write 0x19 "0xff"
     echo "Switch to BIOS controlled mode."
     ;;
   "user")
-    ec_write_support 1
-    printf '\x01' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x15)) count=1 conv=notrunc
-    # ec_probe write 0x15 0x??
-    ec_write_support 0
+    # printf '\x01' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x15)) count=1 conv=notrunc
+    ec_probe write 0x15 "0x01"
     echo "Switch to USER controlled mode."
     ;;
   *)
@@ -34,17 +26,26 @@ change_mode() {
   esac
 }
 
+# Change fans speed
 change_speed() {
-  # Check if fan mode is user
-  printf $(printf '\\x%x' $1) | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x19)) count=1 conv=notrunc
-  ec_probe read 0x19
+  # Check if fans in user mode
+  mode=$(ec_probe read 0x15)
+  if [[ $mode != "0x01" ]]; then
+    echo "Fans are not in user controlled mode."
+    exit 1
+  fi
+
+  speed_hex=$(printf "0x%x\n" $1)
+  # printf $(printf '\\x%x' $1) | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x19)) count=1 conv=notrunc
+  ec_probe write 0x19 $speed_hex
+  printf "Set fans speed to %d00 RPM\n" $1
 }
 
 ############################# Body ###########################
 
 # Check if you are root
 if [ $(whoami) != "root" ]; then
-  echo "ERROR: This script must be run as root"
+  echo "ERROR: This script must be run as root."
   exit 1
 fi
 
@@ -54,6 +55,9 @@ if [[ $# -ne 2 ]]; then
   echo "       omenfan speed <speed>"
   exit 1
 fi
+
+# Load the ec_sys module with write support
+modprobe ec_sys write_support=1
 
 # Get subcommand and argument
 subcommand=$1
@@ -68,7 +72,7 @@ case "$subcommand" in
   change_speed $argument
   ;;
 *)
-  echo "Error: Invaild subcommand!"
+  echo "Error: Invaild subcommand."
   exit 1
   ;;
 esac
