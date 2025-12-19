@@ -9,8 +9,15 @@ MODE_REGISTER="0x15"
 FANS_REGISTER="0x19"
 
 ########################## Functions ################################
+# Helper for calculate
+abs_diff() {
+  local a=$1
+  local b=$2
+  echo $((a > b ? a - b : b - a))
+}
 
 # Change fans mode betweet bios and user
+# Only recieve one argument
 change_mode() {
   case "$1" in
   "bios")
@@ -19,7 +26,7 @@ change_mode() {
 
     # Set fans to invaild state
     # printf '\xff' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x19)) count=1 conv=notrunc
-    ec_probe write "$FANS_REGISTER" "0xff"
+    # ec_probe write "$FANS_REGISTER" "0xff"
     echo "Switch to BIOS controlled mode."
     ;;
   "user")
@@ -50,9 +57,20 @@ change_speed() {
     exit 1
   fi
 
-  speed_hex=$(printf "0x%x\n" $1)
-  # printf $(printf '\\x%x' $1) | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x19)) count=1 conv=notrunc
-  ec_probe write $FANS_REGISTER $speed_hex
+  # Let the fans speed change slowly to expend fans life time
+  former_speed=$(ec_probe read $FANS_REGISTER | awk '{print $1}')
+  latter_speed=$1
+  cur_speed=$former_speed
+  increment=$(abs_diff former_speed latter_speed)
+  echo "Changing speed......"
+  for ((i = 0; i < increment; i++)); do
+    cur_speed=$((former_speed > latter_speed ? cur_speed - 1 : cur_speed + 1))
+    speed_hex=$(printf "0x%x\n" $cur_speed)
+    # printf $(printf '\\x%x' $1) | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x19)) count=1 conv=notrunc
+    ec_probe write $FANS_REGISTER $speed_hex
+    sleep 0.4
+  done
+
   printf "Set fans speed to %d00 RPM\n" $1
 }
 
