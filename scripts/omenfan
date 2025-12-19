@@ -2,21 +2,29 @@
 
 # Require nbfc-linux(yay)
 
-########################## Functions ################################3
+########################## Global variables #########################
+MAX_SPEED=55
+MIN_SPEED=20
+MODE_REGISTER="0x15"
+FANS_REGISTER="0x19"
+
+########################## Functions ################################
 
 # Change fans mode betweet bios and user
 change_mode() {
   case "$1" in
   "bios")
     # printf '\x00' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x15)) count=1 conv=notrunc
-    ec_probe write 0x15 "0x00"
+    ec_probe write "$MODE_REGISTER" "0x00"
+
+    # Set fans to invaild state
     # printf '\xff' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x19)) count=1 conv=notrunc
-    ec_probe write 0x19 "0xff"
+    ec_probe write "$FANS_REGISTER" "0xff"
     echo "Switch to BIOS controlled mode."
     ;;
   "user")
     # printf '\x01' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x15)) count=1 conv=notrunc
-    ec_probe write 0x15 "0x01"
+    ec_probe write "$MODE_REGISTER" "0x01"
     echo "Switch to USER controlled mode."
     ;;
   *)
@@ -29,15 +37,15 @@ change_mode() {
 # Change fans speed
 change_speed() {
   # Check if fans in user mode
-  mode=$(ec_probe read 0x15)
-  if [[ $mode != "0x01" ]]; then
+  mode=$(ec_probe read $MODE_REGISTER | awk '{print $1}')
+  if [[ $mode != "1" ]]; then
     echo "Fans are not in user controlled mode."
     exit 1
   fi
 
   speed_hex=$(printf "0x%x\n" $1)
   # printf $(printf '\\x%x' $1) | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x19)) count=1 conv=notrunc
-  ec_probe write 0x19 $speed_hex
+  ec_probe write $FANS_REGISTER $speed_hex
   printf "Set fans speed to %d00 RPM\n" $1
 }
 
