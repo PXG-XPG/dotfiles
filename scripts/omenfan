@@ -9,7 +9,10 @@ MIN_SPEED=20
 MODE_REGISTER="0x15"
 FANS_REGISTER="0x19"
 
-TIME_GAP="1"
+TIME_GAP="0.7"
+
+BIOS_MODE="0"
+USER_MODE="1"
 
 ########################## Functions ################################
 # Helper for calculating
@@ -22,14 +25,21 @@ abs_diff() {
 # Change fans mode betweet bios and user
 # Only recieve one argument
 change_mode() {
+  mode=$(ec_probe read $MODE_REGISTER | awk '{print $1}')
+
   case "$1" in
   "bios")
     # printf '\x00' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x15)) count=1 conv=notrunc
     # printf '\xff' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x19)) count=1 conv=notrunc
 
+    if [[ $mode = $BIOS_MODE ]]; then
+      echo "Fans is already in BIOS controlled mode."
+      exit 1
+    fi
+
     # Set fans speed to minimal speed firstly, then switch mode to bios
     change_speed $MIN_SPEED
-    ec_probe write "$MODE_REGISTER" "0x00"
+    ec_probe write "$MODE_REGISTER" $BIOS_MODE
     # Set fans to invaild state
     ec_probe write "$FANS_REGISTER" "0xff"
     echo "Switch to BIOS controlled mode."
@@ -37,7 +47,12 @@ change_mode() {
   "user")
     # printf '\x01' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x15)) count=1 conv=notrunc
 
-    ec_probe write "$MODE_REGISTER" "0x01"
+    if [[ $mode = $USER_MODE ]]; then
+      echo "Fans is already in USER controlled mode."
+      exit 1
+    fi
+
+    ec_probe write "$MODE_REGISTER" $USER_MODE
     # Set fans to minimal speed
     ec_probe write "$FANS_REGISTER" $MIN_SPEED
     echo "Switch to USER controlled mode."
