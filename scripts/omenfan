@@ -4,10 +4,11 @@
 
 ########################## Global variables #########################
 MAX_SPEED=55
-MIN_SPEED=20
+MIN_SPEED=21
 
 MODE_REGISTER="0x15"
 FANS_REGISTER="0x19"
+FANS_INVAILD="0xff"
 
 TIME_GAP="0.7"
 
@@ -25,41 +26,43 @@ abs_diff() {
 # Change fans mode betweet bios and user
 # Only recieve one argument
 change_mode() {
-  mode=$(ec_probe read $MODE_REGISTER | awk '{print $1}')
+  # Get current mode
+  cur_mode=$(ec_probe read $MODE_REGISTER | awk '{print $1}')
 
+  # Get input mode
   case "$1" in
   "bios")
-    # printf '\x00' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x15)) count=1 conv=notrunc
-    # printf '\xff' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x19)) count=1 conv=notrunc
-
-    if [[ $mode = $BIOS_MODE ]]; then
-      echo "Fans is already in BIOS controlled mode."
-      exit 1
-    fi
-
-    # Set fans speed to minimal speed firstly, then switch mode to bios
-    change_speed $MIN_SPEED
-    ec_probe write "$MODE_REGISTER" $BIOS_MODE
-    # Set fans to invaild state
-    ec_probe write "$FANS_REGISTER" "0xff"
-    echo "Switch to BIOS controlled mode."
+    input_mode=$BIOS_MODE
     ;;
   "user")
-    # printf '\x01' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x15)) count=1 conv=notrunc
-
-    if [[ $mode = $USER_MODE ]]; then
-      echo "Fans is already in USER controlled mode."
-      exit 1
-    fi
-
-    ec_probe write "$MODE_REGISTER" $USER_MODE
-    # Set fans to minimal speed
-    ec_probe write "$FANS_REGISTER" $MIN_SPEED
-    echo "Switch to USER controlled mode."
+    input_mode=$USER_MODE
     ;;
   *)
     echo "Error: Invaild mode!"
     exit 1
+    ;;
+  esac
+
+  # Prevent useless mode change
+  if [[ "$cur_mode" = "$input_mode" ]]; then
+    printf "Fans are already in %s controlled mode.\n" $1
+    exit 1
+  fi
+
+  case "$1" in
+  "bios")
+    # Set fans speed to minimal speed firstly, then switch to bios
+    change_speed $MIN_SPEED
+    ec_probe write "$MODE_REGISTER" $BIOS_MODE
+    # Set fans to invaild state
+    ec_probe write "$FANS_REGISTER" $FANS_INVAILD
+    echo "Switch to BIOS controlled mode."
+    ;;
+  "user")
+    ec_probe write "$MODE_REGISTER" $USER_MODE
+    # Set fans to minimal speed
+    ec_probe write "$FANS_REGISTER" $MIN_SPEED
+    echo "Switch to USER controlled mode."
     ;;
   esac
 }
@@ -69,7 +72,7 @@ change_mode() {
 change_speed() {
   # Check if fans in user mode
   mode=$(ec_probe read $MODE_REGISTER | awk '{print $1}')
-  if [[ $mode != "1" ]]; then
+  if [[ $mode != $USER_MODE ]]; then
     echo "Fans are not in user controlled mode."
     exit 1
   fi
@@ -90,6 +93,7 @@ change_speed() {
     cur_speed=$((former_speed > latter_speed ? cur_speed - 1 : cur_speed + 1))
     speed_hex=$(printf "0x%x\n" $cur_speed)
     # printf $(printf '\\x%x' $1) | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x19)) count=1 conv=notrunc
+    # printf '\x01' | dd of=/sys/kernel/debug/ec/ec0/io bs=1 seek=$((0x15)) count=1 conv=notrunc
     ec_probe write $FANS_REGISTER $speed_hex
     sleep $TIME_GAP
   done
@@ -107,7 +111,7 @@ fi
 
 # Check arguments
 if [[ $# -ne 2 ]]; then
-  echo "Usage: omenfan mode  <mode>"
+  echo "Usage: omenfan mode  <bios/user>"
   echo "       omenfan speed <speed>"
   exit 1
 fi
