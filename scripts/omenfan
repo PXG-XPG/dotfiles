@@ -35,11 +35,18 @@ change_mode() {
 }
 
 # Change fans speed
+# Only recieve one argument
 change_speed() {
   # Check if fans in user mode
   mode=$(ec_probe read $MODE_REGISTER | awk '{print $1}')
   if [[ $mode != "1" ]]; then
     echo "Fans are not in user controlled mode."
+    exit 1
+  fi
+
+  # Check if the input speed is vaild
+  if [[ $1 -lt $MIN_SPEED || $1 -gt $MAX_SPEED ]]; then
+    echo "Error: Invaild input speed."
     exit 1
   fi
 
