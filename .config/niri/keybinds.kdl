@@ -14,7 +14,7 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+T hotkey-overlay-title="Open a Terminal: Kitty" { spawn-sh "wezterm"; }
+    Mod+T hotkey-overlay-title="Open a Terminal: Wezterm" { spawn-sh "wezterm"; }
     Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
@@ -269,5 +269,5 @@ binds {
 
     Mod+E { spawn "nautilus"; }
 
-    Mod+F1 {spawn-sh "pkill fcitx5 || fcitx5";}
+    Mod+F1 hotkey-overlay-title="Start/Kill fcitx5" {spawn-sh "pkill fcitx5 || fcitx5";}
 }
