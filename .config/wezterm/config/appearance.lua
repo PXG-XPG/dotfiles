@@ -16,4 +16,7 @@ return function(wezterm, config)
 
   -- cursor
   config.default_cursor_style = 'SteadyBar'
+
+  -- wayland
+  config.enable_wayland = false
 end
