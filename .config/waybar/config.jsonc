@@ -5,7 +5,6 @@
   "height": 34,
   "spacing": 0,
   "modules-left": [
-    // "custom/lock",
     // "custom/nvidia",
     "memory",
     "cpu",
@@ -17,7 +16,7 @@
     "battery",
     "bluetooth",
     "pulseaudio",
-    "backlight",
+    // "backlight",
     "custom/temperature",
     "custom/reboot",
     "custom/power",
@@ -26,12 +25,6 @@
     "exec": "nvidia-smi --query-gpu=utilization.gpu,temperature.gpu --format=csv,nounits,noheader | sed 's/\\([0-9]\\+\\), \\([0-9]\\+\\)/\\1% 🌡️\\2°C/g'",
     "format": "{} 🖥️",
     "interval": 1
-  },
-  "custom/lock": {
-  "format": "<span color='#00FFFF'>  </span>",
-  "on-click": "hyprlock",
-  "tooltip": true,
-  "tooltip-format": "LockScreen"
   },
   "custom/reboot": {
     "format": "<span color='#FFD700'>  </span>",
@@ -84,14 +77,14 @@
     "on-click-right": "pavucontrol -t 3",
     "on-click": "pactl -- set-sink-mute 0 toggle",
     "tooltip": true,
-    "tooltip-format": "当前系统声音: {volume}%"
+    "tooltip-format": "System volume: {volume}%"
   },
   "custom/temperature": {
     "exec": "sensors | awk '/^Package id 0:/ {print int($4)}'",
     "format": "<span color='#FFA500'> </span>{}°C ",
     "interval": 5,
     "tooltip": true,
-    "tooltip-format": "当前 CPU 温度: {}°C"
+    "tooltip-format": "CPU Temperature: {}°C"
   },
   "memory": {
     "interval": 1,
@@ -128,7 +121,7 @@
     "device": "intel_backlight",
     "format": "<span color='#FFD700'>{icon}</span>{percent}% ",
     "tooltip": true,
-    "tooltip-format": "当前屏幕亮度: {percent}%",
+    "tooltip-format": "Backlight: {percent}%",
     "format-icons": [
       "<span color='#696969'> 󰃞 </span>",  // 暗 - 深灰
       "<span color='#A9A9A9'> 󰃝 </span>",  // 中 - 灰
