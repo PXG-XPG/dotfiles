@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # You must keep network connectivity to run this script!
-# You need to run 'pacman -Syu' before run this script.
 
 # Check if you are root user
 if [ "$EUID" -ne 0 ]; then
@@ -11,16 +10,10 @@ fi
 
 alias download='pacman -S --noconfirm'
 
-cd /home/rum && mkdir tmp && cd tmp
+pacman -Syu --noconfirm
 
 # Install git and yay for install packages
 download --needed git base-devel && git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si
-
-# Install my dotfiles and copy them to .config
-cd ..
-git clone https://github.com/PXG-XPG/dotfiles.git
-cd dotfiles
-# TODO
 
 # Install fonts
 download ttf-0xproto-nerd wqy-zenhei noto-fonts noto-fonts-emoji
