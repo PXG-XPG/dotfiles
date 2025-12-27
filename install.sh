@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Check if you are root user
+if [ "$EUID" -ne 0 ]; then
+    echo "ERROR: This script must be run as root."
+    exit 1
+fi
+
 # Install dependency: git
 pacman -S git
 
