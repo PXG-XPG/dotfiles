@@ -80,3 +80,7 @@ pacman -S celluloid
 
 # Enable fan control
 yay -S nbfc-linux
+
+# Clean up and reboot
+echo "Everything is ready. Auto-rebooting in 5s......"
+sleep 5 && systemctl reboot
