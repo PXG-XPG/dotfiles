@@ -1,73 +1,81 @@
 #!/bin/bash
 
+# You must keep network connectivity to run this script!
+# You need to run 'pacman -Syu' before run this script.
+
 # Check if you are root user
 if [ "$EUID" -ne 0 ]; then
     echo "ERROR: This script must be run as root."
     exit 1
 fi
 
-# Install dependency: git
-pacman -S git
+alias download='pacman -S --noconfirm'
 
-# Install another dependency: yay
-sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si
+cd /home/rum && mkdir tmp && cd tmp
 
-# Install nvidia driver
-pacman -S nvidia-open libva-nvidia-driver libva-utils
+# Install git and yay for install packages
+download --needed git base-devel && git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si
+
+# Install my dotfiles and copy them to .config
+cd ..
+git clone https://github.com/PXG-XPG/dotfiles.git
+cd dotfiles
+# TODO
 
 # Install fonts
-pacman -S ttf-0xproto-nerd wqy-zenhei noto-fonts noto-fonts-emoji
+download ttf-0xproto-nerd wqy-zenhei noto-fonts noto-fonts-emoji
+
+# Install nvidia driver
+download nvidia-open libva-nvidia-driver
+# For verify the settings for VA-API by running `vainfo`, which is provided by `libva-utils`
+download libva-utils
 
 # Install terminal and some useful tools
 yay -S wezterm-nightly-bin
-pacman -S zsh
-pacman -S fastfetch eza less tealdeer starship bluetui exfatprogs
-
+download zsh
+download fastfetch eza less tealdeer starship bluetui exfatprogs
 # Install yazi
-pacman -S yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick ouch lazygit
-
+download yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick ouch lazygit
 # Install editors
-pacman -S neovim emacs-wayland wl-clipboard
+download neovim emacs-wayland wl-clipboard
 
-# Install niri
-pacman -S xwayland-satellite xdg-desktop-portal-gnome fuzzel
-pacman -S niri
+# Install window manager: niri
+download xwayland-satellite xdg-desktop-portal-gnome fuzzel
+download niri
 
-# Configure niri
-pacman -S libnotify mako polkit-gnome
+# Improve niri
+download libnotify mako polkit-gnome waybar swayidle
 yay -S awww-git
-pacman -S waybar
 yay -S swaylock-effects
-pacman -S swayidle
 
 # snapper
-pacman -S snapper snap-pac btrfs-assistant
-pacman -S grub-btrfs inotify-tools
+download snapper snap-pac btrfs-assistant
+download grub-btrfs inotify-tools
 
 # Chinese input method
-pacman -S fcitx5-im fcitx5-rime
+download fcitx5-im fcitx5-rime
 yay -S rime-ice-pinyin-git
 
 # nautilus
 pacman -S ffmpegthumbnailer gvfs-smb gnome-keyring gst-plugins-base gst-plugins-good gst-libav libheif webp-pixbuf-loader libopenraw gst-plugins-bad gst-plugins-ugly
 
 # Install screenshot tools
-pacman -S grim flameshot
+download grim flameshot
 
 # Install screen capture tools
 pacman -S wf-recorder obs-studio
 
 # Install system resource monitoring tools
-pacman -S nvtop btop mission-center
+download nvtop btop mission-center
 
 # Install keymap tool
-pacman -S keyd
+download keyd
 
 # Install daed
 yay -S daed-avx2-bin
 
 # Install browser and player
-pacman -S zen-browser-bin
+yay -S zen-browser-bin
 pacman -S celluloid
 
 # Enable fan control
