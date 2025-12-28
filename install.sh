@@ -10,16 +10,14 @@ fi
 
 alias download='pacman -S --noconfirm'
 
-echo "Copying configure files into /home/rum/.config/ ......"
-mkdir /home/rum/.emacs.d
+export dotfiledir=.
+
 mkdir /home/rum/Apps
 mkdir /home/rum/Workspace
 mkdir /home/rum/.local/share/fcitx5
-mkdir /home/rum/.local/share/wallpaper
 cp -vr ./.config/* /home/rum/.config/
 cp -vr ./.emacs.d/* /home/rum/.emacs.d/
 cp -vr ./.local/share/fcitx5/* /home/rum/.local/share/fcitx5/
-cp -vr ./wallpaper/* /home/rum/.local/share/wallpaper/
 cp -v ./.gitconfig /home/rum/
 cp -v ./.zshrc /home/rum/
 
@@ -44,6 +42,7 @@ download fastfetch eza less tealdeer starship bluetui exfatprogs
 download yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick ouch lazygit
 # Install editors
 download neovim emacs-wayland wl-clipboard
+mkdir /home/rum/.emacs.d
 
 # Install window manager: niri
 download xwayland-satellite xdg-desktop-portal-gnome fuzzel
@@ -51,16 +50,19 @@ download niri
 
 # Improve niri
 download libnotify mako polkit-gnome waybar swayidle
-yay -S awww-git
 yay -S swaylock-effects
 
 # snapper
 download snapper snap-pac btrfs-assistant
 download grub-btrfs inotify-tools
 
+./scripts/wallpaper.sh
+
 # Chinese input method
 download fcitx5-im fcitx5-rime
 yay -S rime-ice-pinyin-git
+
+./scripts/keymap.sh
 
 # nautilus
 download ffmpegthumbnailer gvfs-smb gnome-keyring gst-plugins-base gst-plugins-good gst-libav libheif webp-pixbuf-loader libopenraw gst-plugins-bad gst-plugins-ugly
@@ -74,15 +76,7 @@ download wf-recorder obs-studio
 # Install system resource monitoring tools
 download nvtop btop mission-center
 
-# Install and configure keymap tool: keyd
-download keyd
-systemctl enable keyd --now
-cp -vr ./keyd/* /etc/keyd/
-keyd reload
-
-# Install and enable daed
-yay -S daed-avx2-bin
-systemctl enable --now daed
+./scripts/vpn.sh
 
 # Install browser and player
 yay -S zen-browser-bin
