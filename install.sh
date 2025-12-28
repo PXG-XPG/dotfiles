@@ -10,10 +10,23 @@ fi
 
 alias download='pacman -S --noconfirm'
 
+echo "Copying configure files into /home/rum/.config/ ......"
+mkdir /home/rum/.emacs.d
+mkdir /home/rum/Apps
+mkdir /home/rum/Workspace
+mkdir /home/rum/.local/share/fcitx5
+mkdir /home/rum/.local/share/wallpaper
+cp -vr ./.config/* /home/rum/.config/
+cp -vr ./.emacs.d/* /home/rum/.emacs.d/
+cp -vr ./.local/share/fcitx5/* /home/rum/.local/share/fcitx5/
+cp -vr ./wallpaper/* /home/rum/.local/share/wallpaper/
+cp -v ./.gitconfig /home/rum/
+cp -v ./.zshrc /home/rum/
+
 pacman -Syu --noconfirm
 
-# Install git and yay for install packages
-download --needed git base-devel && git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si
+# Install yay for installing packages
+pacman -S --needed base-devel && git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si
 
 # Install fonts
 download ttf-0xproto-nerd wqy-zenhei noto-fonts noto-fonts-emoji
