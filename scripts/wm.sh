@@ -15,7 +15,7 @@ yay -S swaylock-effects
 download swayidle
 
 # Improve nautilus
-download ffmpegthumbnailer gvfs-smb gnome-keyring gst-plugins-base gst-plugins-good gst-libav libheif webp-pixbuf-loader libopenraw gst-plugins-bad gst-plugins-ugly
+download ffmpegthumbnailer gvfs-smb gvfs-mtp gnome-keyring gst-plugins-base gst-plugins-good gst-libav libheif webp-pixbuf-loader libopenraw gst-plugins-bad gst-plugins-ugly feh
 
 # Install swayosd: Listen CapLock and NumLock
 download swayosd

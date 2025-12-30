@@ -21,7 +21,10 @@ download celluloid
 download zsh
 
 # Install some useful CLI tools
-download fastfetch eza less tealdeer starship bluetui exfatprogs
+download fastfetch eza less tealdeer starship bluetui
+
+# Install some utils
+download exfatprogs usbutils libva-utils
 
 # Install yazi
 download yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick ouch lazygit
