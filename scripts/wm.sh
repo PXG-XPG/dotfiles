@@ -11,9 +11,6 @@ download libnotify mako polkit-gnome
 # Install swaylock: A screen locking utility for Wayland compositors
 yay -S swaylock-effects
 
-# Install swayidle: A idle management daemon for Wayland compositors
-download swayidle
-
 # Improve nautilus
 download ffmpegthumbnailer gvfs-smb gvfs-mtp gnome-keyring gst-plugins-base gst-plugins-good gst-libav libheif webp-pixbuf-loader libopenraw gst-plugins-bad gst-plugins-ugly feh
 
