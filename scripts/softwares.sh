@@ -7,8 +7,9 @@ download wf-recorder obs-studio
 # Install system resource monitoring tools
 download nvtop btop mission-center
 
-# Install browser
+# Install browsers: zen and brave
 yay -S zen-browser-bin
+yay -Sy brave-bin
 
 # Install Reader
 yay -S koodo-reader-bin
