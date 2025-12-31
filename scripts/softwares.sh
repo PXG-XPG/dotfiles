@@ -10,6 +10,9 @@ download nvtop btop mission-center
 # Install browser
 yay -S zen-browser-bin
 
+# Install Reader
+yay -S koodo-reader-bin
+
 # Install terminals
 yay -S wezterm-nightly-bin
 download kitty
