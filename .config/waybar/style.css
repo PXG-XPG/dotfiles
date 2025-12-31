@@ -95,6 +95,7 @@
 #memory{
   background-color: rgba(15,27,53,0.9);
   margin-top: 6px; /* 与屏幕顶部留出距离 */
+  margin-left: 6px;
   /*margin-bottom: 4px;*/
   padding: 4px 2px; /* 保持内部间距 */
   border-radius: 10px 0 0 10px;
