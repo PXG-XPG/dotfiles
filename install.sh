@@ -10,80 +10,62 @@ alias download='pacman -S --noconfirm'
 
 pacman -Syu --noconfirm
 
-### WM
-# Install niri
-download xwayland-satellite xdg-desktop-portal-gnome fuzzel
-download niri
-
+### Improve niri
 # Install waybar
-download waybar
-
+download waybar fuzzel xwayland-satellite
 # Install mako
 download libnotify mako polkit-gnome
-
 # Install swaylock
 yay -S swaylock-effects
-
 # Improve nautilus
 download ffmpegthumbnailer gvfs-smb gvfs-mtp gnome-keyring gst-plugins-base gst-plugins-good gst-libav libheif webp-pixbuf-loader libopenraw gst-plugins-bad gst-plugins-ugly feh
-
 # Install awww
 yay -S awww-git
 mv -v ./wallpaper /home/rum/Pictures/
 
+### configure keymap
 # Install and configure keyd
 download keyd
 systemctl enable keyd --now
 cat ./etc/keyd/keymap.conf >/etc/keyd/keymap.conf
 keyd reload
 
+### Some useful softwares
 # Install screenshot tools
 download grim flameshot
-
 # Install screen recorders
-download wf-recorder obs-studio
-
+download wf-recorder
 # Install system resource monitoring tools
 download nvtop btop mission-center
-
-# Install browsers: zen and brave
-yay -S zen-browser-bin
-yay -Sy brave-bin
-
+# Install brave
+yay -S brave-bin
 # Install Reader
 yay -S koodo-reader-bin
-
 # Install terminals
 yay -S wezterm-nightly-bin
 download kitty
-
 # Install player
 download celluloid
-
 # Install shell
 download zsh fish
-
 # Install some useful CLI tools
 download fastfetch eza less tealdeer starship bluetui
-
 # Install some utils
 download exfatprogs usbutils libva-utils
-
 # Install yazi
 download yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick ouch lazygit
-
 # Install editors
 download neovim emacs-wayland wl-clipboard
 mv -v ./.emacs.d /home/rum/
-
 # Enable fan control
 yay -S nbfc-linux
 
-# Input method solution: fcitx5 which rime-ice-pinyin
+### Input method solution
+# Install fcitx5 which rime-ice-pinyin
 download fcitx5-im fcitx5-rime
 yay -S rime-ice-pinyin-git
 
-# kvm
+### KVM
 download qemu-full virt-manager swtpm dnsmasq
 systemctl enable --now libvirtd
 virsh net-start default

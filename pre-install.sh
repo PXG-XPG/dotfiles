@@ -25,7 +25,14 @@ download nvidia-open libva-nvidia-driver
 # Install fonts
 download ttf-0xproto-nerd wqy-zenhei noto-fonts noto-fonts-emoji ttf-jetbrains-mono-nerd
 
+# Install niri
+download xdg-desktop-portal-gnome
+download niri
+
+# Install zen-browser
+yay -S zen-browser-bin
+
 # Install daed: A modern web dashboard for dae
 yay -S daed-avx2-bin
 systemctl enable --now daed
-echo "Go to http://localhost:2023 and set daed. Don't forget it!"
+# http://localhost:2023
