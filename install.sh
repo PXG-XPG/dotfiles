@@ -6,6 +6,8 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
+alias download='pacman -S --noconfirm'
+
 pacman -Syu --noconfirm
 
 ### WM
@@ -27,11 +29,12 @@ download ffmpegthumbnailer gvfs-smb gvfs-mtp gnome-keyring gst-plugins-base gst-
 
 # Install awww
 yay -S awww-git
+mv -v ./wallpaper /home/rum/Pictures/
 
 # Install and configure keyd
 download keyd
 systemctl enable keyd --now
-???
+cat ./etc/keyd/keymap.conf >/etc/keyd/keymap.conf
 keyd reload
 
 # Install screenshot tools
@@ -71,20 +74,24 @@ download yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick ouc
 
 # Install editors
 download neovim emacs-wayland wl-clipboard
+mv -v ./.emacs.d /home/rum/
 
 # Enable fan control
 yay -S nbfc-linux
 
 # Input method solution: fcitx5 which rime-ice-pinyin
-# This script must be run after installing niri
 download fcitx5-im fcitx5-rime
 yay -S rime-ice-pinyin-git
 
-# snapper
-download snapper snap-pac btrfs-assistant
-?????
-download grub-btrfs inotify-tools
+# kvm
+download qemu-full virt-manager swtpm dnsmasq
+systemctl enable --now libvirtd
+virsh net-start default
+virsh net-autostart default
+usermod -a -G libvirt rum
+cat ./etc/modprobe.d/kvm_intel.conf >/etc/modprobe.d/kvm_intel.conf
+mkinitcpio -P
 
-# Clean up and reboot
+# Done
 echo "Everything is ready. Auto-rebooting in 5s......"
 sleep 5 && systemctl reboot

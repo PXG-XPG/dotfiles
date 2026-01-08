@@ -8,6 +8,11 @@ fi
 
 alias download='pacman -S --noconfirm'
 
+mv -v ./.config /home/rum/
+mv -v ./.local /home/rum/
+mv -v ./.ssh /home/rum/
+mv -v ./Apps /home/rum/
+
 # Sync database and update all
 pacman -Syu --noconfirm
 
