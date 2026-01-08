@@ -1,6 +1,9 @@
 # APPS
 export APPS=~/Apps
 
+# Starship
+export STARSHIP_CONFIG=~/.config/tokyo-night.toml
+
 # PATH
 export PATH=$PATH:$APPS
 

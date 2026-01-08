@@ -26,6 +26,10 @@
             "format": "{host-name}"
         },
         {
+            "key": "│ {#28}󰩠 localip {#keys}│",
+            "type": "localip"
+        },
+        {
             "key": "│ {#33}󰅐 uptime  {#keys}│",
             "type": "uptime"
         },
@@ -56,6 +60,11 @@
         {
             "key": "│ {#33}󰍛 cpu     {#keys}│",
             "type": "cpu",
+            "showPeCoreCount": true
+        },
+        {
+            "key": "│ {#39}󰢮 gpu     {#keys}│",
+            "type": "gpu",
             "showPeCoreCount": true
         },
         {

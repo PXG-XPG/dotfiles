@@ -11,5 +11,9 @@ return function(wezterm, config)
     config.font_size = 15
 
     -- cursor
-    config.default_cursor_style = 'SteadyBar'
+    config.default_cursor_style = 'BlinkingBar'
+    config.animation_fps = 120
+
+    -- Render front-end
+    config.front_end = "OpenGL"
 end
