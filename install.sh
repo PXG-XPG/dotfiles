@@ -7,6 +7,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 alias download='pacman -S --noconfirm'
+alias move='mv -v'
 
 pacman -Syu --noconfirm
 
@@ -21,7 +22,7 @@ yay -S swaylock-effects
 download ffmpegthumbnailer gvfs-smb gvfs-mtp gnome-keyring gst-plugins-base gst-plugins-good gst-libav libheif webp-pixbuf-loader libopenraw gst-plugins-bad gst-plugins-ugly feh
 # Install awww
 yay -S awww-git
-mv -v ./wallpaper /home/rum/Pictures/
+move ./wallpaper /home/rum/Pictures/
 
 ### configure keymap
 # Install and configure keyd
@@ -41,13 +42,21 @@ download nvtop btop mission-center
 yay -S brave-bin
 # Install Reader
 yay -S koodo-reader-bin
+
 # Install terminals
 yay -S wezterm-nightly-bin
 download kitty
+move ./.config/wezterm /home/rum/.config/
+move ./.config/fish /home/rum/.config/
+
 # Install player
 download celluloid
+
 # Install shell
 download zsh fish
+move ./.zshrc /home/rum/
+move ./.config/fish /home/rum/.config/
+
 # Install some useful CLI tools
 download fastfetch eza less tealdeer starship bluetui
 # Install some utils
