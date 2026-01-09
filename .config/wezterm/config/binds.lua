@@ -30,6 +30,9 @@ return function(wezterm, config)
         -- Scroll
         { key = "p",          mods = "ALT",         action = act.ScrollByLine(-1) },
         { key = "n",          mods = "ALT",         action = act.ScrollByLine(1) },
+
+        -- Copy mode
+        { key = 'Space',      mods = 'CTRL',        action = wezterm.action.ActivateCopyMode },
     }
 
     -- ALT + number to activate that tab
