@@ -1,0 +1,8 @@
+#!/bin/bash
+
+### Get CPU and GPU temperature
+ctemp=$(sensors | awk '/^Package id 0:/ {print int($4)}')
+gtemp=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,nounits,noheader)
+
+echo "CPU Temperature: $ctemp"
+echo "CPU Temperature: $gtemp"
