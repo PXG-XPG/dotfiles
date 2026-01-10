@@ -58,7 +58,7 @@ move ./.zshrc /home/rum/
 move ./.config/fish /home/rum/.config/
 
 # Install some useful CLI tools
-download fastfetch eza less tealdeer starship bluetui
+download fastfetch eza tealdeer starship bluetui man-db
 # Install some utils
 download exfatprogs usbutils libva-utils
 # Install yazi
