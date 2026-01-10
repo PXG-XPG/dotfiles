@@ -20,7 +20,7 @@ pacman -Syu --noconfirm
 pacman -S --needed base-devel && git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si
 
 # Install nvidia driver
-download nvidia-open lib32-nvidia-utils vulkan-icd-loader lib32-vulkan-icd-loader
+download nvidia-open nvidia-utils lib32-nvidia-utils vulkan-icd-loader lib32-vulkan-icd-loader
 download libva-nvidia-driver
 
 # Install fonts
