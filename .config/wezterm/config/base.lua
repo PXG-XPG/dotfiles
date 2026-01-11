@@ -16,6 +16,7 @@ return function(wezterm, config)
         saturation = 0.9,
         brightness = 0.8,
     }
+
     -- font
     config.font = wezterm.font_with_fallback { '0xProto Nerd Font', 'WenQuanYi Zen Hei' }
     config.font_size = 15
