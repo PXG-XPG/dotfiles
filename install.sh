@@ -64,7 +64,9 @@ download exfatprogs usbutils libva-utils
 # Install yazi
 download yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick ouch lazygit
 # Install editors
-download neovim emacs-wayland wl-clipboard
+download neovim upzip wl-clipboard
+### Install `node` to your Apps dir
+download emacs-wayland
 mv -v ./.emacs.d /home/rum/
 # Enable fan control
 yay -S nbfc-linux
