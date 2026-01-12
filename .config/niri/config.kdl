@@ -77,7 +77,6 @@ input {
 }
 
 hotkey-overlay {
-    // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
     skip-at-startup
 }
 
@@ -95,3 +94,7 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 // You can also set this to null to disable saving screenshots to disk.
 // screenshot-path null
 
+cursor {
+    xcursor-size 32
+    hide-after-inactive-ms 15000
+}
