@@ -5,7 +5,6 @@
 include "config/animations.kdl"
 include "config/env.kdl"
 include "config/binds.kdl"
-include "config/layers.kdl"
 include "config/layout.kdl"
 include "config/outputs.kdl"
 include "config/startup.kdl"

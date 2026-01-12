@@ -51,3 +51,8 @@ window-rule {
     opacity 0.99
     draw-border-with-background false
 }
+
+layer-rule {
+    match namespace="^awww-daemon_overview$"
+    place-within-backdrop true
+}
