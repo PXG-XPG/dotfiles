@@ -10,4 +10,4 @@ export STARSHIP_CONFIG=~/.config/tokyo-night.toml
 export PATH=$PATH:$APPS:$NODEHOME
 
 # zsh
-fpath=(~/.config/zsh/completions ~/.config/zsh/plugins/zsh-completions/src $fpath)
+fpath=(~/.config/zsh/plugins/zsh-completions/src $fpath)
