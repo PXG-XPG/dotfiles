@@ -1,0 +1,2 @@
+export HISTSIZE=5000
+export HISTFILESIZE=5000
