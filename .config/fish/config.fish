@@ -4,6 +4,8 @@ end
 
 set fish_greeting ""
 
+fish_default_key_bindings
+
 set -x STARSHIP_CONFIG ~/.config/gruvbox-rainbow.toml
 starship init fish | source
 
