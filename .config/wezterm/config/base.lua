@@ -1,6 +1,9 @@
 return function(wezterm, config)
 	-- theme
 	config.color_scheme = "Tokyo Night"
+	config.colors = {
+		selection_bg = "#f38ba8",
+	}
 
 	-- window
 	config.window_background_opacity = 0.8
