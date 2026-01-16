@@ -1,5 +1,5 @@
 # EDITOR
-export EDITOR=nvim
+# export EDITOR=nvim
 
 # Starship
 export STARSHIP_CONFIG=~/.config/tokyo-night.toml

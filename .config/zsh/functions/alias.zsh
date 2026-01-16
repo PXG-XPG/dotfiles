@@ -6,6 +6,7 @@ alias cls='clear'
 alias grep='grep --color=auto'
 
 alias ff='fastfetch'
+alias ffall='fastfetch -c all'
 alias eza='eza --long --all --header --inode'
 alias zshrc='nvim ~/.zshrc'
 alias zshenv='nvim ~/.config/zsh/functions/env.zsh'
