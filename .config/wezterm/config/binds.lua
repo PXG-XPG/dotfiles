@@ -38,12 +38,29 @@ return function(wezterm, config)
 		{ key = "Space", mods = "ALT | CTRL", action = act.QuickSelect },
 	}
 
+	-- Mouse bindings
+	config.mouse_bindings = {
+		-- copy the selection
+		{
+			event = { Up = { streak = 1, button = "Left" } },
+			mods = "NONE",
+			action = act.CompleteSelection("ClipboardAndPrimarySelection"),
+		},
+
+		-- Open HyperLink
+		{
+			event = { Up = { streak = 1, button = "Left" } },
+			mods = "CTRL",
+			action = act.OpenLinkAtMouseCursor,
+		},
+	}
+
 	-- ALT + number to activate that tab
-	for i = 1, 8 do
+	for i = 1, 9 do
 		table.insert(config.keys, {
 			key = tostring(i),
 			mods = "ALT",
-			action = wezterm.action.ActivateTab(i - 1),
+			action = act.ActivateTab(i - 1),
 		})
 	end
 end
