@@ -1,11 +1,10 @@
 {
     "layer": "top",
     "position": "top",
-    // "height": 32,
     "height": 34,
     "spacing": 0,
+    /* === Modules Order === */
     "modules-left": [
-        // "custom/nvidia",
         "memory",
         "cpu",
         "tray",
@@ -15,37 +14,91 @@
         "network",
         "battery",
         "bluetooth",
+        "cava",
         "pulseaudio",
-        // "backlight",
         "custom/temperature",
-        "custom/reboot",
-        "custom/power",
+        "custom/archicon",
     ],
-    "custom/nvidia": {
-        "exec": "nvidia-smi --query-gpu=utilization.gpu,temperature.gpu --format=csv,nounits,noheader | sed 's/\\([0-9]\\+\\), \\([0-9]\\+\\)/\\1% 🌡️\\2°C/g'",
-        "format": "{} 🖥️",
-        "interval": 1
+    /* === Modules Left === */
+    "memory": {
+        "interval": 1,
+        "format": "<span color='#8A2BE2'>  </span>{used:0.2f}G/{total:0.2f}G ",
+        "tooltip": false,
     },
-    "custom/reboot": {
-        "format": "<span color='#FFD700'>  </span>",
-        "on-click": "reboot",
+    "cpu": {
+        "interval": 1,
+        "format": "<span color='#FF9F0A'>  </span>{usage}% ",
+        "tooltip": true
+    },
+    "tray": {
+        "icon-size": 17,
+        "spacing": 6
+    },
+    /* === Modules Center === */
+    "clock": {
+        "interval": 1,
+        "format": "<span color='#BF00FF'>  </span>{:%I:%M %p %m-%d} ",
         "tooltip": true,
-        "tooltip-format": "Reboot"
+        "tooltip-format": "<span font='IBM Plex Mono Bold 13'><tt><small>{calendar}</small></tt></span>",
+        "calendar": {
+            "mode"          : "month",
+            "weeks-pos"     : "right",
+            "format": {
+                "months":     "<span color='#ffead3'><b>{}</b></span>",
+                "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+                "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+                "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+                "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+            }
+        },
     },
-    "custom/power": {
-        "format": "<span color='#FF4040'>  </span>",
-        "on-click": "shutdown -h now",
-        "tooltip": true,
-        "tooltip-format": "PowerOff"
-    },
+    /* === Modules Right === */
     "network": {
-        "format-wifi": "<span color='#00FFFF'> 󰤨 </span>{essid} ",
-        "format-ethernet": "<span color='#7FFF00'>  </span>Wired ",
-        "tooltip-format": "<span color='#FF1493'> 󰅧 </span>{bandwidthUpBytes}  <span color='#00BFFF'> 󰅢 </span>{bandwidthDownBytes}",
+        "format-wifi": "<span color='#00FFFF'> 󰤨 </span>{essid} ({signalStrength}%) ",
+        "format-ethernet": "<span color='#7FFF00'>  </span>Wired ({signalStrength}%) ",
         "format-linked": "<span color='#FFA500'> 󱘖 </span>{ifname} (No IP) ",
         "format-disconnected": "<span color='#FF4040'>  </span>Disconnected ",
-        "format-alt": "<span color='#00FFFF'> 󰤨 </span>{signalStrength}% ",
+        "format-alt": "<span color='#FF1493'> 󰅧 </span>{bandwidthUpBytes} <span color='#00BFFF'> 󰅢 </span>{bandwidthDownBytes}",
+		"tooltip": false,
         "interval": 1
+    },
+    "custom/archicon": {
+        "format": "<span color='#00BFFF'>  </span>",
+		"tooltip": false,
+		"menu": "on-click",
+		"menu-file": "$HOME/.config/waybar/archicon.xml",
+		"menu-actions": {
+			"shutdown": "shutdown -h now",
+			"reboot": "reboot",
+			"lock": "swaylock",
+            "logout": "loginctl terminate-user $USER"
+		}
+    },
+    "cava": {
+        "framerate": 120,
+        "autosens": 0,
+        // "overshoot": 20,
+        "sensitivity": 9,
+        "bars": 14,
+        // "bar_height": 30
+        // "bar_spacing": 10,
+        "lower_cutoff_freq": 50,
+        "higher_cutoff_freq": 10000,
+        "hide_on_silence": false,
+        // "format_silent": "quiet",
+        "method": "pipewire",
+        "source": "auto",
+        "stereo": true,
+        "reverse": false,
+        "bar_delimiter": 0,
+        "monstercat": false,
+        "waves": true,
+        "noise_reduction": 0.77,
+        "input_delay": 2,
+        "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" ],
+        "actions": {
+            "on-click-right": "mode"
+        }
     },
     "battery": {
         "states": {
@@ -85,49 +138,6 @@
         "interval": 1,
         "tooltip": true,
         "tooltip-format": "CPU Temperature: {}°C"
-    },
-    "memory": {
-        "interval": 1,
-        "format": "<span color='#8A2BE2'>  </span>{used:0.2f}G/{total:0.2f}G ",
-        "tooltip": false,
-    },
-    "cpu": {
-        "interval": 1,
-        "format": "<span color='#FF9F0A'>  </span>{usage}% ",
-        "tooltip": true
-    },
-    "clock": {
-        "interval": 1,
-        "format": "<span color='#BF00FF'>  </span>{:%I:%M %p %m-%d} ",
-        "tooltip": true,
-        "tooltip-format": "<span font='IBM Plex Mono Bold 13'><tt><small>{calendar}</small></tt></span>",
-        "calendar": {
-            "mode"          : "month",
-            "weeks-pos"     : "right",
-            "format": {
-                "months":     "<span color='#ffead3'><b>{}</b></span>",
-                "days":       "<span color='#ecc6d9'><b>{}</b></span>",
-                "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
-                "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
-                "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
-            }
-        },
-    },
-    "tray": {
-        "icon-size": 17,
-        "spacing": 6
-    },
-    "backlight": {
-        "device": "intel_backlight",
-        "format": "<span color='#FFD700'>{icon}</span>{percent}% ",
-        "tooltip": true,
-        "tooltip-format": "Backlight: {percent}%",
-        "format-icons": [
-            "<span color='#696969'> 󰃞 </span>",  // 暗 - 深灰
-            "<span color='#A9A9A9'> 󰃝 </span>",  // 中 - 灰
-            "<span color='#FFFF66'> 󰃟 </span>",  // 亮 - 柠檬黄
-            "<span color='#FFD700'> 󰃠 </span>"   // 最亮 - 金色
-        ]
     },
     "bluetooth": {
         "format": "<span color='#00BFFF'>  </span>{status} ",
