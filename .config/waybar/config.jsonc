@@ -1,45 +1,30 @@
 {
     "layer": "top",
     "position": "top",
-    "height": 34,
+    "height": 32,
     "spacing": 0,
-    /* === Modules Order === */
+    "reload_style_on_change": true,
+    //=== Module order ===//
     "modules-left": [
-        "memory",
-        "cpu",
+        "clock",
+        "custom/system",
         "tray",
     ],
-    "modules-center": ["clock"],
+    "modules-center": [
+        "cava",
+    ],
     "modules-right": [
         "network",
-        "battery",
         "bluetooth",
-        "cava",
         "pulseaudio",
-        "custom/temperature",
-        "custom/archicon",
+        "group/arch"
     ],
-    /* === Modules Left === */
-    "memory": {
-        "interval": 1,
-        "format": "<span color='#8A2BE2'>  </span>{used:0.2f}G/{total:0.2f}G ",
-        "tooltip": false,
-    },
-    "cpu": {
-        "interval": 1,
-        "format": "<span color='#FF9F0A'>  </span>{usage}% ",
-        "tooltip": true
-    },
-    "tray": {
-        "icon-size": 17,
-        "spacing": 6
-    },
-    /* === Modules Center === */
+    //=== Module left ===//
     "clock": {
         "interval": 1,
-        "format": "<span color='#BF00FF'>  </span>{:%I:%M %p %m-%d} ",
+        "format": "<span color='#BF00FF'>  </span>{:%I:%M %p} ",
         "tooltip": true,
-        "tooltip-format": "<span font='IBM Plex Mono Bold 13'><tt><small>{calendar}</small></tt></span>",
+        "tooltip-format": "<span font='0xProto Nerd Mono Bold 13'><tt><small>{calendar}</small></tt></span>",
         "calendar": {
             "mode"          : "month",
             "weeks-pos"     : "right",
@@ -52,68 +37,51 @@
             }
         },
     },
-    /* === Modules Right === */
-    "network": {
-        "format-wifi": "<span color='#00FFFF'> 󰤨 </span>{essid} ({signalStrength}%) ",
-        "format-ethernet": "<span color='#7FFF00'>  </span>Wired ({signalStrength}%) ",
-        "format-linked": "<span color='#FFA500'> 󱘖 </span>{ifname} (No IP) ",
-        "format-disconnected": "<span color='#FF4040'>  </span>Disconnected ",
-        "format-alt": "<span color='#FF1493'> 󰅧 </span>{bandwidthUpBytes} <span color='#00BFFF'> 󰅢 </span>{bandwidthDownBytes}",
-		"tooltip": false,
-        "interval": 1
+    "custom/system": {
+        "format": "<span color='#28CD41'> </span>",
+        "on-click": "wezterm -e btop",
+        "tooltip": false,
     },
-    "custom/archicon": {
-        "format": "<span color='#00BFFF'>  </span>",
-		"tooltip": false,
-		"menu": "on-click",
-		"menu-file": "$HOME/.config/waybar/archicon.xml",
-		"menu-actions": {
-			"shutdown": "shutdown -h now",
-			"reboot": "reboot",
-			"lock": "swaylock",
-            "logout": "loginctl terminate-user $USER"
-		}
+    "tray": {
+        "icon-size": 17,
+        "spacing": 6
     },
+    //=== Module center ===//
     "cava": {
         "framerate": 120,
-        "autosens": 0,
-        // "overshoot": 20,
-        "sensitivity": 9,
-        "bars": 14,
-        // "bar_height": 30
-        // "bar_spacing": 10,
+        "autosens": 1,
+        "bars": 16,
         "lower_cutoff_freq": 50,
         "higher_cutoff_freq": 10000,
-        "hide_on_silence": false,
-        // "format_silent": "quiet",
+        "hide_on_silence": true,
         "method": "pipewire",
         "source": "auto",
-        "stereo": true,
-        "reverse": false,
+        "stereo": false,
         "bar_delimiter": 0,
         "monstercat": false,
-        "waves": true,
-        "noise_reduction": 0.77,
-        "input_delay": 2,
+        "waves": false,
+        "noise_reduction": 0.6,
+        "input_delay": 4,
+        "sleep_timer": 1,
         "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" ],
         "actions": {
             "on-click-right": "mode"
         }
     },
-    "battery": {
-        "states": {
-            "warning": 30,
-            "critical": 15
-        },
-        "format": "<span color='#28CD41'> {icon} </span>{capacity}% ",
-        "format-charging": "󰂄{capacity}%",
-        "interval": 1,
-        "format-icons": ["󰂎", "󰁼", "󰁿", "󰂁", "󰁹"],
-        "tooltip": true
+    //=== Module right ===//
+    "network": {
+        "format-wifi": "<span color='#00FFFF'> 󰤨 </span>Wireless ({signalStrength}%)",
+        "format-ethernet": "<span color='#7FFF00'>  </span>Wired ({signalStrength}%)",
+        "format-linked": "<span color='#FFA500'> 󱘖 </span>{ifname} (No IP) ",
+        "format-disconnected": "<span color='#FF4040'>  </span>Disconnected ",
+        "format-alt": "<span color='#FF1493'> 󰅧 </span>{bandwidthUpBytes}<span color='#00BFFF'> 󰅢 </span>{bandwidthDownBytes} ",
+        "on-click-right": "kitty -e nmtui",
+        "tooltip": false,
+        "interval": 1
     },
     "pulseaudio": {
         "format": "<span color='#00FF7F'>{icon}</span>{volume}% ",
-        "format-muted": "<span color='#FF4040'> 󰖁 </span>0% ",
+        "format-muted": "<span color='#FF4040'>  </span>0% ",
         "format-icons": {
             "headphone": "<span color='#BF00FF'>  </span>",
             "hands-free": "<span color='#BF00FF'>  </span>",
@@ -129,15 +97,7 @@
         },
         "on-click-right": "pavucontrol -t 3",
         "on-click": "pactl -- set-sink-mute 0 toggle",
-        "tooltip": true,
-        "tooltip-format": "System volume: {volume}%"
-    },
-    "custom/temperature": {
-        "exec": "sensors | awk '/^Package id 0:/ {print int($4)}'",
-        "format": "<span color='#FFA500'> </span>{}°C ",
-        "interval": 1,
-        "tooltip": true,
-        "tooltip-format": "CPU Temperature: {}°C"
+        "tooltip": false,
     },
     "bluetooth": {
         "format": "<span color='#00BFFF'>  </span>{status} ",
@@ -146,7 +106,41 @@
         "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
         "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
         "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-        "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
-    }
+        "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+        "on-click": "kitty -e bluetui",
+    },
+    "custom/icon": {
+        "format": "<span color='#00BFFF'> </span>",
+        "tooltip": false,
+    },
+    "custom/lock": {
+        "format": "<span color='#00FFFF'> </span>",
+        "on-click": "swaylock",
+        "tooltip": false,
+    },
+    "custom/reboot": {
+        "format": "<span color='#FFD700'> </span>",
+        "on-click": "reboot",
+        "tooltip": false,
+    },
+    "custom/power": {
+        "format": "<span color='#FF4040'> </span>",
+        "on-click": "shutdown -h now",
+        "tooltip": false,
+    },
+    "group/arch": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 500,
+            "children-class": "not-power",
+            "transition-left-to-right": false,
+        },
+        "modules": [
+            "custom/icon",
+            "custom/power",
+            "custom/lock",
+            "custom/reboot",
+        ]
+    },
 }
 
