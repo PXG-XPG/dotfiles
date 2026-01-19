@@ -1,10 +1,10 @@
-# EDITOR
-# export EDITOR=nvim
+# Z shell
+export ZSH=~/.config/zsh
 
-# Starship
+# starship
 export STARSHIP_CONFIG=~/.config/tokyo-night.toml
 
-# APPS
+# my apps
 export APPS=~/Apps
 export NODEHOME=$APPS/node/bin
 
@@ -12,4 +12,4 @@ export NODEHOME=$APPS/node/bin
 export PATH=$PATH:$APPS:$NODEHOME
 
 # zsh's fpath
-fpath=(~/.config/zsh/plugins/zsh-completions/src $fpath)
+fpath=($ZSH/plugins/zsh-completions/src $fpath)
