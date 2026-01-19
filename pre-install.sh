@@ -26,7 +26,7 @@ download opencl-nvidia lib32-opencl-nvidia
 download libva-nvidia-driver
 
 # Install fonts
-download ttf-0xproto-nerd wqy-zenhei noto-fonts noto-fonts-emoji ttf-jetbrains-mono-nerd
+download ttf-0xproto-nerd wqy-zenhei noto-fonts noto-fonts-emoji ttf-jetbrains-mono-nerd ttf-nerd-fonts-symbols-mono
 
 # Install niri
 download xdg-desktop-portal-gnome
