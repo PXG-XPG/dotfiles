@@ -13,7 +13,8 @@ pacman -Syu --noconfirm
 
 ### Improve niri
 # Install waybar
-download waybar fuzzel xwayland-satellite
+yay -S waybar-cava
+download fuzzel xwayland-satellite
 # Install mako
 download libnotify mako polkit-gnome
 # Install swaylock
