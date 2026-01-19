@@ -21,7 +21,7 @@ return function(wezterm, config)
 	}
 
 	-- font
-	config.font = wezterm.font_with_fallback({ "0xProto Nerd Font", "WenQuanYi Zen Hei" })
+	config.font = wezterm.font_with_fallback({ "0xProto Nerd Font", "LXGW Neo ZhiSong Screen" })
 	config.font_size = 15
 
 	-- cursor
