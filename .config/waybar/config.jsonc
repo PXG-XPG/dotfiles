@@ -21,7 +21,7 @@
     ],
     //=== Module left ===//
     "clock": {
-        "interval": 1,
+        "interval": 60,
         "format": "<span color='#BF00FF'>  </span>{:%I:%M %p} ",
         "tooltip": true,
         "tooltip-format": "<span font='0xProto Nerd Mono Bold 13'><tt><small>{calendar}</small></tt></span>",
