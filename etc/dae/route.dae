@@ -1,0 +1,21 @@
+routing {
+    pname(NetworkManager, systemd-resolved, dnsmasq) -> must_direct
+    pname(telegram-desktop) -> cc142
+    
+    dip(224.0.0.0/3, 'ff00::/8') -> direct
+    dip(geoip:private) -> direct
+    dip(1.14.5.14) -> direct
+    dip(geoip:cn) -> direct
+    
+    domain(full: csdiy.wiki) -> direct
+    domain(full: imap.gmail.com) -> cc142
+    domain(full: godotshaders.com) -> cc142
+    domain(geosite:openai) -> main_group
+    domain(geosite:cn) -> direct
+    domain(geosite:category-scholar-cn) -> direct
+    domain(geosite:geolocation-cn) -> direct
+    
+    l4proto(udp) && dport(443) -> block
+
+    fallback: main_group
+}

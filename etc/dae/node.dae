@@ -1,0 +1,26 @@
+# node.dae
+node {
+    
+}
+
+subscription {
+    
+}
+
+group {
+    main_group {
+        filter: subtag(ikuuu) && !name(keyword: 'ExpireAt:')
+        policy: min_moving_avg
+    }
+
+    cc142 {
+        filter: name(cc142)
+        policy: fixed(0)
+    }
+    
+    steam {
+        filter: subtag(ikuuu) && !name(keyword: 'ExpireAt:')
+        policy: min_moving_avg
+        tcp_check_url: 'http://test.steampowered.com'
+    }
+}
